@@ -1,25 +1,29 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: [:update, :destroy]
+    before_action :find_user, only: [:show, :update, :destroy]
     
     def index
         users = User.all
         
-        render json: users
+        render json: users, except: [:created_at, :updated_at]
     end
 
     def create
         user = User.new(user_params)
         
         if user.save
-            render json: user
+            render json: user, except: [:created_at, :updated_at]
         else
             render json: {"error": "could not sign you up"}
         end
     end
 
+    def show 
+        render json: @user, except: [:created_at, :updated_at]
+    end
+
     def update
         if @user.update(user_params)
-            render json: @user
+            render json: @user, except: [:created_at, :updated_at]
         else
             render json: {"error": "could not udpate your profile"}
         end
