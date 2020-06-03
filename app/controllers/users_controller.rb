@@ -13,7 +13,23 @@ class UsersController < ApplicationController
         if user.save
             render json: user
         else
-            render json: {"error": "sign in / sign up failed"}
+            render json: {"error": "could not sign you up"}
+        end
+    end
+
+    def update
+        if @user.update(user_params)
+            render json: @user
+        else
+            render json: {"error": "could not udpate your profile"}
+        end
+    end
+
+    def destroy
+        if @user.destroy
+            render json: {"message": "your account has been deleted"}
+        else
+            render json: {"error": "could not delete your account"}
         end
     end
 
