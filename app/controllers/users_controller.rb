@@ -1,10 +1,16 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: [:show, :update, :destroy]
+    before_action :find_user, only: [:show, :update, :destroy, :lists_index]
     
     def index
         users = User.all
         
         render json: users, except: [:created_at, :updated_at]
+    end
+
+    def lists_index
+        lists = List.where(user: @user)
+
+        render json: lists
     end
 
     def create
