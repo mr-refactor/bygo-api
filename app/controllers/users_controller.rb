@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: [:show, :update, :destroy, :lists_index]
+    before_action :find_user, only: [:show, :update, :destroy, :list_index]
     
     def index
         users = User.all
@@ -7,7 +7,8 @@ class UsersController < ApplicationController
         render json: users, except: [:created_at, :updated_at]
     end
 
-    def lists_index
+    def list_index
+        binding.pry
         lists = List.where(user: @user)
 
         render json: lists
