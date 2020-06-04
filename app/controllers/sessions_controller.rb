@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     user = session[:user_id] && User.find(session[:user_id])
 
     if user
-      render json: user
+      render json: user, except: [:password_digest, :created_at, :updated_at]
     else
       render json: {"error": "No current user"}
     end
@@ -16,9 +16,9 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(login_params[:password])
       session[:user_id] = user.id
-      render json: {"message": "#{session[:user_id]}"}
+      render json: user, except: [:password_digest, :created_at, :updated_at]
     else
-      render json: {"message": "Invalid Username or Password"}
+      render json: {"error": "Invalid Username or Password"}
     end
   end
 
