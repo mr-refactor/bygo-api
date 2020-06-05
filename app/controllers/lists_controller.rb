@@ -1,10 +1,15 @@
 class ListsController < ApplicationController
-    before_action :find_list, only: [:show, :update, :destroy]
+    before_action :find_list, only: [:show, :item_index, :update, :destroy]
     
     def index
         lists = List.all
         
         render json: lists, except: [:created_at, :updated_at]
+    end
+
+    def item_index
+        items = @list.items
+        render json: items, except: [:created_at, :updated_at]
     end
 
     def create

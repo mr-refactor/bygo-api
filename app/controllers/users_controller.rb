@@ -8,7 +8,6 @@ class UsersController < ApplicationController
     end
 
     def list_index
-        binding.pry
         lists = List.where(user: @user)
 
         render json: lists

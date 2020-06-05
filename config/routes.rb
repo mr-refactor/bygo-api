@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :lists
+  get '/lists/:id/items', to: 'lists#item_index'
   
   resources :users
   get '/users/:id/lists', to: 'users#list_index'
