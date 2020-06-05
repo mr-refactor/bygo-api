@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :lists
   get '/lists/:id/items', to: 'lists#item_index'
-  post '/lists/:id/add', to: 'list#add_item'
+  post '/lists/:id/add', to: 'lists#add_item'
   
   resources :users
   get '/users/:id/lists', to: 'users#list_index'

@@ -27,7 +27,7 @@ class ListsController < ApplicationController
         
         if item
             @list.items << item
-            render json: item
+            render json: item, except: [:created_at, :updated_at]
         else
             render json: {"error": "could not make a new item"}
         end
