@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-    before_action :find_list, only: [:show, :item_index, :update, :destroy]
+    before_action :find_list, only: [:show, :item_index, :add_item, :update, :destroy]
     
     def index
         lists = List.all
@@ -19,6 +19,17 @@ class ListsController < ApplicationController
             render json: list, except: [:created_at, :updated_at]
         else
             render json: {"error": "could not make a new list"}
+        end
+    end
+
+    def add_item
+        item = Item.find_or_create_by(name: item_params[:name])
+        
+        if item
+            @list.items << item
+            render json: item
+        else
+            render json: {"error": "could not make a new item"}
         end
     end
 
@@ -50,5 +61,9 @@ class ListsController < ApplicationController
 
         def list_params
             params.require(:list).permit(:name, :note, :user_id)
+        end
+
+        def item_params
+            params.require(:item).permit(:name, :category)
         end
 end
