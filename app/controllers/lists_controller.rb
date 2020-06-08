@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-    before_action :find_list, only: [:show, :item_index, :add_item, :update, :destroy]
+    before_action :find_list, only: [:show, :item_index, :add_item, :update, :destroy, :remove_item]
     
     def index
         lists = List.all
@@ -45,6 +45,16 @@ class ListsController < ApplicationController
         end
     end
 
+    def remove_item
+        item = @list.list_items.find_by(item_id: item_params[:id])
+
+        if item.destroy
+            render json: item, except: [:created_at, :updated_at]
+        else
+            render json: {"error": "could not remove item"}
+        end
+    end
+
     def destroy
         if @list.destroy
             render json: {"message": "this list has been deleted"}
@@ -64,6 +74,6 @@ class ListsController < ApplicationController
         end
 
         def item_params
-            params.require(:item).permit(:name, :category)
+            params.require(:item).permit(:name, :category, :id)
         end
 end
